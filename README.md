@@ -1,15 +1,15 @@
 # 🚀 Data Tools Explained
 
-An interactive educational web application that simplifies some of the most important tools used in modern Data Engineering, Analytics, and Business Intelligence.
+![Project Banner](assets/project-banner.png)
 
-This project explains:
+An interactive educational web application that simplifies modern Data Engineering and Analytics concepts through visual storytelling, real-world analogies, workflow diagrams, and beginner-friendly explanations.
+
+The project currently covers:
 
 * Apache Airflow
 * dbt (Data Build Tool)
 * Azure Data Factory (ADF)
 * Microsoft Fabric
-
-through visual storytelling, real-world analogies, workflow diagrams, and beginner-friendly explanations.
 
 ---
 
@@ -21,33 +21,44 @@ https://shikharprakash071.github.io/data-tools-explained/
 
 ---
 
-## 📌 Project Overview
+## 📌 About The Project
 
-Learning Data Engineering can be overwhelming.
+Learning Data Engineering can feel overwhelming.
 
-Most tutorials explain tools individually, but rarely show:
+Most tutorials explain tools individually, but rarely answer:
 
-* Why they exist
-* What problem they solve
+* Why these tools exist
+* What problems they solve
 * How they work together
 * Where they fit in a real-world data pipeline
 
 This project was built to bridge that gap.
 
-Using an interactive slide-based experience, users can understand complex concepts in a simple and engaging way without needing a technical background.
+Using an interactive slide-based experience, users can understand complex concepts without needing a technical background.
 
 ---
 
-## 🎯 Project Objectives
+## ✨ Features
 
-This project aims to:
+* Interactive slide navigation
+* Responsive design
+* Modern dark-themed UI
+* Visual workflow diagrams
+* Real-world analogies
+* Story-based learning approach
+* Tool comparison section
+* Interview-ready explanations
+* Beginner-friendly language
+
+---
+
+## 🎯 Project Goals
 
 * Simplify Data Engineering concepts
-* Explain modern analytics tools visually
 * Help beginners understand data pipelines
+* Create a visual learning experience
 * Demonstrate frontend development skills
-* Build a portfolio-worthy educational project
-* Create a practical learning resource for aspiring Data Analysts and Data Engineers
+* Build a portfolio-ready educational project
 
 ---
 
@@ -59,12 +70,12 @@ This project aims to:
 * CSS3
 * Vanilla JavaScript
 
-### Development Tools
+### Development & Deployment
 
-* Visual Studio Code
 * Git
 * GitHub
 * GitHub Pages
+* Visual Studio Code
 
 ### Design Concepts
 
@@ -82,6 +93,8 @@ This project aims to:
 data-tools-explained/
 │
 ├── assets/
+│   ├── project-banner.png
+│   └── favicon2.png
 │
 ├── css/
 │   └── style.css
@@ -102,9 +115,9 @@ data-tools-explained/
 
 ### 1️⃣ Apache Airflow
 
-Learn how Airflow acts as the manager of a data pipeline.
+Learn how workflow orchestration helps automate and manage data pipelines.
 
-Topics Covered:
+**Key Concepts**
 
 * Workflow Orchestration
 * Scheduling
@@ -113,17 +126,17 @@ Topics Covered:
 * Monitoring
 * Task Dependencies
 
-Real-World Analogy:
+**Real-World Analogy**
 
-> Airflow is like a project manager who ensures every task is completed in the correct order.
+> Airflow is the manager that ensures every task happens in the correct order.
 
 ---
 
 ### 2️⃣ dbt (Data Build Tool)
 
-Learn how raw and messy data becomes analytics-ready.
+Learn how raw data becomes analytics-ready data.
 
-Topics Covered:
+**Key Concepts**
 
 * Data Transformation
 * Data Modeling
@@ -131,17 +144,17 @@ Topics Covered:
 * Data Quality Testing
 * Documentation
 
-Real-World Analogy:
+**Real-World Analogy**
 
-> dbt is like a cleaner who organizes and prepares data before analysis.
+> dbt is the cleaner that transforms messy data into useful information.
 
 ---
 
 ### 3️⃣ Azure Data Factory (ADF)
 
-Learn how data moves between systems.
+Learn how data moves between different systems.
 
-Topics Covered:
+**Key Concepts**
 
 * Data Integration
 * ETL & ELT
@@ -149,17 +162,17 @@ Topics Covered:
 * Data Ingestion
 * Automated Data Movement
 
-Real-World Analogy:
+**Real-World Analogy**
 
-> ADF is like a delivery truck that transports data from one location to another.
+> ADF is the delivery service that transports data from one place to another.
 
 ---
 
 ### 4️⃣ Microsoft Fabric
 
-Learn how Microsoft combines multiple analytics services into one platform.
+Learn how Microsoft combines analytics, engineering, warehousing, and visualization into a unified platform.
 
-Topics Covered:
+**Key Concepts**
 
 * Data Factory
 * Data Engineering
@@ -167,9 +180,9 @@ Topics Covered:
 * Power BI
 * Unified Analytics Platform
 
-Real-World Analogy:
+**Real-World Analogy**
 
-> Fabric is like a shopping mall where everything you need exists under one roof.
+> Fabric is a shopping mall where everything exists under one roof.
 
 ---
 
@@ -179,37 +192,23 @@ Instead of relying on technical jargon, this project teaches concepts through:
 
 ### Visual Learning
 
-* Flow diagrams
+* Workflow diagrams
 * Process visualizations
 * Pipeline illustrations
 
 ### Storytelling
 
-Users follow a realistic workflow showing how modern companies process and analyze data.
+Users follow realistic business scenarios to understand how modern data teams work with these tools.
 
 ### Real-World Analogies
 
-Complex concepts are mapped to everyday examples to make learning easier.
-
----
-
-## ✨ Features
-
-* Interactive slide navigation
-* Responsive layout
-* Professional dark theme
-* Beginner-friendly explanations
-* Real-world examples
-* Visual workflow diagrams
-* Tool comparison section
-* Story-based learning experience
-* Interview-ready summaries
+Complex concepts are mapped to everyday examples to make learning easier and more memorable.
 
 ---
 
 ## 🔄 How These Tools Work Together
 
-A typical modern data pipeline looks like:
+A typical modern data pipeline looks like this:
 
 ```text
 Data Sources
@@ -238,15 +237,17 @@ Microsoft Fabric can unify most of these components into a single platform.
 
 ## 💡 Why I Built This Project
 
-As someone actively learning Data Analytics, Business Intelligence, and Data Engineering, I realized that understanding tools individually is not enough.
+While learning Data Analytics, Business Intelligence, and Data Engineering, I realized that understanding individual tools wasn't enough.
 
-The real challenge is understanding:
+The real challenge was understanding:
 
 * Why companies use them
 * How they fit together
 * When to use each one
 
-This project was built to create a practical and visual learning experience while strengthening my frontend development, technical communication, and documentation skills.
+This project started as a personal learning resource and evolved into a visual guide that I hope can help other beginners understand these concepts more easily.
+
+It also gave me an opportunity to strengthen my skills in frontend development, documentation, Git, and technical communication.
 
 ---
 
@@ -264,8 +265,8 @@ This project was built to create a practical and visual learning experience whil
 ### Data Skills
 
 * Data Engineering Fundamentals
-* Data Pipeline Concepts
 * Workflow Orchestration
+* Data Pipelines
 * Data Transformation
 * Cloud Analytics Platforms
 
@@ -279,18 +280,27 @@ This project was built to create a practical and visual learning experience whil
 
 ---
 
-## 🚀 Future Improvements
+## 🚀 Future Roadmap
 
-Planned enhancements include:
+Planned additions include:
+
+* Snowflake
+* Databricks
+* Apache Spark
+* Azure Synapse
+* Apache Kafka
+* Power BI
+* Tableau
+* SQL Server
+
+Additional improvements:
 
 * Search functionality
 * Interactive quizzes
-* Additional Data Engineering tools
 * Architecture diagrams
 * Mobile-first optimization
-* Progress tracking
 * Accessibility improvements
-* Dark/Light theme switching
+* Light/Dark theme switching
 
 ---
 
@@ -317,14 +327,18 @@ Aspiring Data Analyst | Business Intelligence Enthusiast | Data Engineering Lear
 
 https://www.linkedin.com/in/shikharprakash071/
 
+🔗 GitHub
+
+https://github.com/ShikharPrakash071
+
 ---
 
 ## ⭐ Support
 
-If you found this project useful, consider giving it a star.
+If you found this project useful, consider giving the repository a star.
 
-It helps others discover the project and motivates future improvements.
+It helps others discover the project and supports future improvements.
 
 ---
 
-### Built with curiosity, continuous learning, and a passion for making complex data concepts easier to understand.
+Built with curiosity, continuous learning, and a passion for making complex data concepts easier to understand.
