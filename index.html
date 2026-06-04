@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Tools Explained</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: #13131a;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --muted: #7878a0;
+    --accent1: #6c63ff;
+    --accent2: #ff6b6b;
+    --accent3: #43e97b;
+    --accent4: #f7971e;
+    --accent5: #38f9d7;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  h1, h2, h3, .title {
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav button.active, .nav button:hover {
+    border-color: var(--accent1);
+    color: var(--white);
+    background: rgba(108,99,255,0.15);
+  }
+
+  /* SLIDES */
+  .slides-container { max-width: 760px; margin: 0 auto; }
+
+  .slide {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .slide.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    opacity: 0.07;
+  }
+
+  .card.airflow::before { background: var(--accent1); }
+  .card.dbt::before { background: var(--accent3); }
+  .card.adf::before { background: var(--accent4); }
+  .card.fabric::before { background: var(--accent5); }
+  .card.overview::before { background: var(--accent2); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .badge.airflow { background: rgba(108,99,255,0.15); color: var(--accent1); border: 1px solid rgba(108,99,255,0.3); }
+  .badge.dbt { background: rgba(67,233,123,0.12); color: var(--accent3); border: 1px solid rgba(67,233,123,0.3); }
+  .badge.adf { background: rgba(247,151,30,0.12); color: var(--accent4); border: 1px solid rgba(247,151,30,0.3); }
+  .badge.fabric { background: rgba(56,249,215,0.12); color: var(--accent5); border: 1px solid rgba(56,249,215,0.3); }
+  .badge.overview { background: rgba(255,107,107,0.12); color: var(--accent2); border: 1px solid rgba(255,107,107,0.3); }
+
+  /* TOOL TITLE */
+  .tool-name {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .tool-fullform {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  /* TAGLINE */
+  .tagline {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    margin-bottom: 12px;
+  }
+
+  .desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #c0c0d0;
+    margin-bottom: 24px;
+  }
+
+  /* ANALOGY BOX */
+  .analogy {
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .analogy.airflow { border-color: var(--accent1); }
+  .analogy.dbt { border-color: var(--accent3); }
+  .analogy.adf { border-color: var(--accent4); }
+  .analogy.fabric { border-color: var(--accent5); }
+
+  .analogy-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .analogy-label.airflow { color: var(--accent1); }
+  .analogy-label.dbt { color: var(--accent3); }
+  .analogy-label.adf { color: var(--accent4); }
+  .analogy-label.fabric { color: var(--accent5); }
+
+  .analogy-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+
+  .flow-step {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .flow-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  .flow-step.highlight-airflow { border-color: var(--accent1); color: var(--accent1); background: rgba(108,99,255,0.1); }
+  .flow-step.highlight-dbt { border-color: var(--accent3); color: var(--accent3); background: rgba(67,233,123,0.08); }
+  .flow-step.highlight-adf { border-color: var(--accent4); color: var(--accent4); background: rgba(247,151,30,0.08); }
+  .flow-step.highlight-fabric { border-color: var(--accent5); color: var(--accent5); background: rgba(56,249,215,0.08); }
+
+  /* VERTICAL FLOW */
+  .vflow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 20px 0;
+  }
+
+  .vflow-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vflow-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .vflow-line {
+    width: 2px;
+    height: 24px;
+    margin-left: 15px;
+    background: var(--border);
+  }
+
+  .vflow-text {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .vflow-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* FAIL STATE */
+  .fail-state .vflow-dot {
+    background: rgba(255,107,107,0.15);
+    color: var(--accent2);
+    border: 1px solid rgba(255,107,107,0.3);
+  }
+
+  .fail-state .vflow-text { color: var(--muted); text-decoration: line-through; }
+
+  /* INTERVIEW QUOTE */
+  .interview-box {
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 24px;
+  }
+
+  .interview-box.airflow { background: rgba(108,99,255,0.08); border: 1px solid rgba(108,99,255,0.2); }
+  .interview-box.dbt { background: rgba(67,233,123,0.08); border: 1px solid rgba(67,233,123,0.2); }
+  .interview-box.adf { background: rgba(247,151,30,0.08); border: 1px solid rgba(247,151,30,0.2); }
+  .interview-box.fabric { background: rgba(56,249,215,0.08); border: 1px solid rgba(56,249,215,0.2); }
+
+  .interview-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-family: 'Syne', sans-serif;
+    color: var(--muted);
+  }
+
+  .interview-quote {
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .interview-simple {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .interview-simple strong {
+    color: var(--text);
+    font-style: normal;
+  }
+
+  /* COMPARISON TABLE */
+  .table-wrapper { overflow-x: auto; margin: 20px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .tool-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .pill-airflow { background: rgba(108,99,255,0.15); color: var(--accent1); }
+  .pill-dbt { background: rgba(67,233,123,0.12); color: var(--accent3); }
+  .pill-adf { background: rgba(247,151,30,0.12); color: var(--accent4); }
+  .pill-fabric { background: rgba(56,249,215,0.12); color: var(--accent5); }
+
+  /* ICONS (emoji-style) */
+  .icon-big {
+    font-size: 40px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* GRID CARDS */
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 500px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .tool-name { font-size: 32px; }
+    .card { padding: 24px; }
+  }
+
+  .mini-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .mini-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .mini-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* STORY TIMELINE */
+  .story-timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .story-timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent1), var(--accent3), var(--accent4), var(--accent5));
+  }
+
+  .story-step {
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .story-dot {
+    position: absolute;
+    left: -25px;
+    top: 4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  .story-step:nth-child(1) .story-dot { background: var(--accent1); }
+  .story-step:nth-child(2) .story-dot { background: var(--accent4); }
+  .story-step:nth-child(3) .story-dot { background: var(--accent3); }
+  .story-step:nth-child(4) .story-dot { background: var(--accent5); }
+
+  .story-who {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .story-says {
+    font-size: 13px;
+    color: #c0c0d0;
+    line-height: 1.6;
+    background: rgba(255,255,255,0.03);
+    padding: 10px 14px;
+    border-radius: 0 10px 10px 10px;
+    border: 1px solid var(--border);
+  }
+
+  /* PAGE COUNTER */
+  .page-num {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    margin-top: 10px;
+  }
+
+  /* PREV NEXT */
+  .nav-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .nav-btns button {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 28px;
+    border-radius: 30px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btns button:hover {
+    border-color: var(--accent1);
+    color: var(--accent1);
+  }
+
+  /* HEADER SLIDE */
+  .hero-card {
+    background: linear-gradient(135deg, #13131a 0%, #1a1a2e 100%);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 300px;
+    background: radial-gradient(ellipse, rgba(108,99,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 0%, #a0a0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 420px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+
+  .tools-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tools-row .badge { margin-bottom: 0; }
+
+  /* DATA TABLE EXAMPLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 10px 0;
+  }
+
+  .data-table th {
+    background: rgba(255,255,255,0.05);
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+
+  .data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .data-table .raw { color: var(--accent2); }
+  .data-table .clean { color: var(--accent3); }
+
+  /* FABRIC MALL */
+  .mall {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .mall-store {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .mall-store .store-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+  .mall-store .store-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .mall-store .store-desc { font-size: 11px; color: var(--muted); }
+
+  .mall-wrapper {
+    border: 2px solid var(--accent5);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    background: rgba(56,249,215,0.03);
+  }
+
+  .mall-label {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    padding: 0 12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent5);
+  }
+
+  /* WHEN TO USE */
+  .use-case-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .use-case {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .use-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .use-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .use-text p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav" id="mainNav">
+  <button onclick="goTo(0)" class="active">Intro</button>
+  <button onclick="goTo(1)">Airflow</button>
+  <button onclick="goTo(2)">dbt</button>
+  <button onclick="goTo(3)">ADF</button>
+  <button onclick="goTo(4)">Fabric</button>
+  <button onclick="goTo(5)">Comparison</button>
+  <button onclick="goTo(6)">Story</button>
+</div>
+
+<div class="slides-container">
+
+  <!-- ═══════════════ SLIDE 0: INTRO ═══════════════ -->
+  <div class="slide active" id="slide-0">
+    <div class="hero-card">
+      <div class="hero-title">Data Tools<br>Explained</div>
+      <p class="hero-sub">A beginner-friendly breakdown of the 4 tools every modern data team uses — explained like you have zero tech background.</p>
+      <div class="tools-row">
+        <span class="badge airflow">Airflow</span>
+        <span class="badge dbt">dbt</span>
+        <span class="badge adf">ADF</span>
+        <span class="badge fabric">Fabric</span>
+      </div>
+    </div>
+
+    <div class="card overview" style="margin-top:20px;">
+      <div class="badge overview">The Big Picture</div>
+      <div class="tagline">Why do we even need these tools?</div>
+      <p class="desc">Imagine a food delivery app like Swiggy or Zomato. Every single day, thousands of orders come in. Data is piling up — customers, restaurants, payments, ratings. Someone needs to:</p>
+      <div class="vflow">
+        <div class="vflow-step">
+          <div class="vflow-dot" style="background:rgba(108,99,255,0.15);color:var(--accent1);border:1px solid rgba(108,99,255,0.3);">📥</div>
+          <div>
+            <div class="vflow-text">Collect all that data automatically</div>
+            <div class="vflow-sub">From APIs, databases, Excel sheets…</div>
+          </div>
+        </div>
+        <div class="vflow-line"></div>
+        <div class="vflow-step">
+          <div class="vflow-dot" style="background:rgba(67,233,123,0.1);color:var(--accent3);border:1px solid rgba(67,233,123,0.3);">🧹</div>
+          <div>
+            <div class="vflow-text">Clean and organize it</div>
+            <div class="vflow-sub">Remove duplicates, fix formats…</div>
+          </div>
+        </div>
+        <div class="vflow-line"></div>
+        <div class="vflow-step">
+          <div class="vflow-dot" style="background:rgba(247,151,30,0.1);color:var(--accent4);border:1px solid rgba(247,151,30,0.3);">🚚</div>
+          <div>
+            <div class="vflow-text">Move it to the right place</div>
+            <div class="vflow-sub">Into a database or warehouse…</div>
+          </div>
+        </div>
+        <div class="vflow-line"></div>
+        <div class="vflow-step">
+          <div class="vflow-dot" style="background:rgba(56,249,215,0.1);color:var(--accent5);border:1px solid rgba(56,249,215,0.3);">📊</div>
+          <div>
+            <div class="vflow-text">Build dashboards for the business team</div>
+            <div class="vflow-sub">Power BI, Tableau, Looker…</div>
+          </div>
+        </div>
+      </div>
+      <p class="desc" style="margin-bottom:0;">These 4 tools handle exactly that. Swipe to learn each one.</p>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(1)">Next: Apache Airflow →</button>
+    </div>
+    <div class="page-num">1 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 1: AIRFLOW ═══════════════ -->
+  <div class="slide" id="slide-1">
+    <div class="card airflow">
+      <div class="badge airflow">Tool 01</div>
+      <div class="tool-name" style="color:var(--accent1);">Apache<br>Airflow</div>
+      <div class="tool-fullform">Full form: Not an acronym — "Airflow" is the name. Made by Airbnb, now open-source.</div>
+
+      <div class="tagline">Think of it as the Office Manager</div>
+      <p class="desc">Every company has a manager who makes sure tasks happen in the right order, at the right time. Nobody starts cooking before the groceries arrive. Airflow is that manager — for your data.</p>
+
+      <div class="analogy airflow">
+        <div class="analogy-label airflow">Real-Life Analogy</div>
+        <div class="analogy-text">
+          <strong>Mom's cooking checklist:</strong><br>
+          Step 1 → Buy vegetables<br>
+          Step 2 → Wash them<br>
+          Step 3 → Start cooking<br><br>
+          If Step 1 fails (store is closed), cooking never starts. Airflow works the same way — it makes sure each step completes before the next one begins.
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin-bottom:12px;">How it works in Data</div>
+      <div class="flow">
+        <div class="flow-step">📡 Fetch API Data</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step highlight-airflow">⚙️ Airflow Schedules</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🐍 Run Python Script</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🗄️ Store in Database</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📊 Update Dashboard</div>
+      </div>
+
+      <p class="desc">What if Step 2 (Python script) crashes? Airflow stops everything after it and sends you an alert. No broken dashboards. No silent failures.</p>
+
+      <div class="grid2">
+        <div class="mini-card">
+          <h4 style="color:var(--accent1);">✅ What it does</h4>
+          <p>Schedules tasks to run automatically (daily, hourly, weekly). Monitors success/failure. Retries failed tasks.</p>
+        </div>
+        <div class="mini-card">
+          <h4 style="color:var(--accent2);">❌ What it does NOT do</h4>
+          <p>It doesn't move or clean data itself. It just tells other tools when and in what order to run.</p>
+        </div>
+      </div>
+
+      <div class="interview-box airflow">
+        <div class="interview-label">Interview-Ready Answer</div>
+        <div class="interview-quote">"Apache Airflow is a workflow orchestration tool used to schedule, monitor, and automate data pipelines."</div>
+        <div class="interview-simple"><strong>In plain English:</strong> Airflow is the manager of your data pipeline. It decides what runs, when it runs, and what happens if something breaks.</div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(0)">← Back</button>
+      <button onclick="goTo(2)">Next: dbt →</button>
+    </div>
+    <div class="page-num">2 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 2: DBT ═══════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="card dbt">
+      <div class="badge dbt">Tool 02</div>
+      <div class="tool-name" style="color:var(--accent3);">dbt</div>
+      <div class="tool-fullform">Full form: Data Build Tool</div>
+
+      <div class="tagline">Think of it as the Data Cleaner</div>
+      <p class="desc">Raw data that comes into your database is messy. Wrong formats, duplicates, inconsistent spellings. Before anyone can analyze it, it needs to be cleaned and organized. That's dbt's job.</p>
+
+      <div class="analogy dbt">
+        <div class="analogy-label dbt">Real-Life Analogy</div>
+        <div class="analogy-text">
+          <strong>Imagine a vegetable vendor:</strong><br>
+          Raw vegetables arrive muddy and unsorted. Before selling, they're washed, sorted, and packed neatly.<br><br>
+          dbt takes your raw, messy database data and turns it into clean, analysis-ready tables — automatically.
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin-bottom:12px;">The Problem dbt Solves</div>
+
+      <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">Same person, 3 different spellings in the database:</p>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <tr><th>Before dbt (Raw)</th><th>After dbt (Clean)</th></tr>
+          <tr><td class="raw">alex</td><td class="clean">Alex</td></tr>
+          <tr><td class="raw">ALEX</td><td class="clean">Alex</td></tr>
+          <tr><td class="raw">Alex</td><td class="clean">Alex</td></tr>
+        </table>
+      </div>
+
+      <p style="font-size:13px;color:var(--muted);margin:16px 0 8px;">Same date, 3 different formats:</p>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <tr><th>Before dbt (Raw)</th><th>After dbt (Clean)</th></tr>
+          <tr><td class="raw">04-06-26</td><td class="clean">2026-06-04</td></tr>
+          <tr><td class="raw">2026/06/04</td><td class="clean">2026-06-04</td></tr>
+          <tr><td class="raw">June 4 2026</td><td class="clean">2026-06-04</td></tr>
+        </table>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin:20px 0 12px;">Real Company Example</div>
+      <p class="desc" style="margin-bottom:12px;">A food delivery company wants a Daily Revenue Table for Power BI. The raw data is scattered across 3 tables:</p>
+      <div class="flow">
+        <div class="flow-step">📦 Orders Table</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-step">💳 Payments Table</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-step">↩️ Refunds Table</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step highlight-dbt">dbt combines & cleans</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📊 Revenue Table</div>
+      </div>
+
+      <div class="grid2" style="margin-top:20px;">
+        <div class="mini-card">
+          <h4 style="color:var(--accent3);">✅ What it does</h4>
+          <p>Writes and runs SQL automatically. Creates clean tables. Tests data quality. Documents everything.</p>
+        </div>
+        <div class="mini-card">
+          <h4 style="color:var(--accent2);">❌ What it does NOT do</h4>
+          <p>It doesn't move data between systems. It only works with data already inside your database.</p>
+        </div>
+      </div>
+
+      <div class="interview-box dbt">
+        <div class="interview-label">Interview-Ready Answer</div>
+        <div class="interview-quote">"dbt is used to transform, test, and model raw data into analytics-ready datasets using SQL."</div>
+        <div class="interview-simple"><strong>In plain English:</strong> dbt cleans your messy data and turns it into neat, ready-to-analyze tables. No manual SQL scripts needed.</div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(1)">← Back</button>
+      <button onclick="goTo(3)">Next: Azure Data Factory →</button>
+    </div>
+    <div class="page-num">3 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 3: ADF ═══════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="card adf">
+      <div class="badge adf">Tool 03</div>
+      <div class="tool-name" style="color:var(--accent4);">Azure Data<br>Factory</div>
+      <div class="tool-fullform">Full form: ADF — Azure Data Factory (by Microsoft)</div>
+
+      <div class="tagline">Think of it as the Data Truck</div>
+      <p class="desc">Sometimes your data is in one place (like an Excel file or an API) and you need it somewhere else (like a database or cloud storage). ADF is the service that picks it up and delivers it — safely and automatically.</p>
+
+      <div class="analogy adf">
+        <div class="analogy-label adf">Real-Life Analogy</div>
+        <div class="analogy-text">
+          <strong>Think of a courier service:</strong><br>
+          A package (your data) needs to move from a warehouse (the source) to your doorstep (the destination). You don't drive it yourself — the courier handles the entire journey.<br><br>
+          ADF is that courier for data. You just say "pick it up here, drop it there" and it handles the rest.
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin-bottom:12px;">Examples of What ADF Moves</div>
+
+      <div class="use-case-grid">
+        <div class="use-case">
+          <div class="use-icon">📁</div>
+          <div class="use-text">
+            <h4>Excel → SQL Database</h4>
+            <p>Finance team stores data in Excel. ADF copies it nightly into a proper SQL database.</p>
+          </div>
+        </div>
+        <div class="use-case">
+          <div class="use-icon">🌐</div>
+          <div class="use-text">
+            <h4>API → Data Warehouse</h4>
+            <p>Sales data from a CRM API gets moved into Azure Synapse every hour automatically.</p>
+          </div>
+        </div>
+        <div class="use-case">
+          <div class="use-icon">🗄️</div>
+          <div class="use-text">
+            <h4>On-Premise DB → Cloud</h4>
+            <p>Old company database sitting in a server room gets migrated to the cloud via ADF.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin:20px 0 12px;">The Data Journey</div>
+      <div class="flow">
+        <div class="flow-step">📥 Source<br><span style="font-size:10px;color:var(--muted)">Excel / API / DB</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step highlight-adf">🚚 ADF<br><span style="font-size:10px;color:var(--muted)">Picks up & moves</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📤 Destination<br><span style="font-size:10px;color:var(--muted)">SQL / Warehouse / Blob</span></div>
+      </div>
+
+      <div class="grid2" style="margin-top:20px;">
+        <div class="mini-card">
+          <h4 style="color:var(--accent4);">✅ What it does</h4>
+          <p>Moves data between 90+ sources. Schedules data transfers. Handles large-scale data movement on the cloud.</p>
+        </div>
+        <div class="mini-card">
+          <h4 style="color:var(--accent2);">❌ What it does NOT do</h4>
+          <p>It doesn't deeply transform or clean data. It just moves it. For heavy transformation, you'd combine it with dbt.</p>
+        </div>
+      </div>
+
+      <div class="interview-box adf">
+        <div class="interview-label">Interview-Ready Answer</div>
+        <div class="interview-quote">"Azure Data Factory is a cloud-based data integration service used to move and orchestrate data between different systems."</div>
+        <div class="interview-simple"><strong>In plain English:</strong> ADF safely transports data from wherever it lives to wherever it needs to go — automatically, on schedule.</div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(2)">← Back</button>
+      <button onclick="goTo(4)">Next: Microsoft Fabric →</button>
+    </div>
+    <div class="page-num">4 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 4: FABRIC ═══════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="card fabric">
+      <div class="badge fabric">Tool 04</div>
+      <div class="tool-name" style="color:var(--accent5);">Microsoft<br>Fabric</div>
+      <div class="tool-fullform">Full form: Microsoft Fabric (that's the full name — it's a platform, not an acronym)</div>
+
+      <div class="tagline">Think of it as the All-in-One Mall</div>
+      <p class="desc">Until recently, companies needed separate tools for every step. Move data here. Clean it there. Store it somewhere else. Visualize it in another tool. Microsoft looked at all of this and said: "What if we put it all under one roof?"</p>
+
+      <div class="analogy fabric">
+        <div class="analogy-label fabric">Real-Life Analogy</div>
+        <div class="analogy-text">
+          <strong>A shopping mall has everything:</strong><br>
+          Grocery store, clothing store, electronics, food court — all in one building. You don't drive from store to store.<br><br>
+          Microsoft Fabric is that mall for data. One platform. One login. No juggling between tools.
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin:20px 0 12px;">What's Inside Fabric</div>
+      <div class="mall-wrapper">
+        <div class="mall-label">Microsoft Fabric</div>
+        <div class="mall">
+          <div class="mall-store">
+            <span class="store-icon">🚚</span>
+            <div class="store-name">Data Factory</div>
+            <div class="store-desc">Move data between systems</div>
+          </div>
+          <div class="mall-store">
+            <span class="store-icon">🗄️</span>
+            <div class="store-name">Data Warehouse</div>
+            <div class="store-desc">Store large amounts of data</div>
+          </div>
+          <div class="mall-store">
+            <span class="store-icon">⚙️</span>
+            <div class="store-name">Data Engineering</div>
+            <div class="store-desc">Transform & process data</div>
+          </div>
+          <div class="mall-store">
+            <span class="store-icon">📊</span>
+            <div class="store-name">Power BI</div>
+            <div class="store-desc">Build dashboards & reports</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tagline" style="font-size:15px;margin:24px 0 12px;">Old Way vs Fabric Way</div>
+      <div class="grid2">
+        <div class="mini-card" style="border-color:rgba(255,107,107,0.2);">
+          <h4 style="color:var(--accent2);">Before Fabric (4 tools)</h4>
+          <div class="flow" style="flex-direction:column;gap:4px;margin:8px 0 0;">
+            <div class="flow-step" style="font-size:11px;">ADF → Move data</div>
+            <div class="flow-arrow" style="transform:rotate(90deg);padding:2px 0;">→</div>
+            <div class="flow-step" style="font-size:11px;">SQL → Store data</div>
+            <div class="flow-arrow" style="transform:rotate(90deg);padding:2px 0;">→</div>
+            <div class="flow-step" style="font-size:11px;">dbt → Clean data</div>
+            <div class="flow-arrow" style="transform:rotate(90deg);padding:2px 0;">→</div>
+            <div class="flow-step" style="font-size:11px;">Power BI → Visualize</div>
+          </div>
+        </div>
+        <div class="mini-card" style="border-color:rgba(56,249,215,0.2);">
+          <h4 style="color:var(--accent5);">With Fabric (1 platform)</h4>
+          <div style="text-align:center;padding:24px 0;">
+            <div class="flow-step highlight-fabric" style="font-size:13px;padding:20px 16px;">🏬 Microsoft Fabric<br><span style="font-size:11px;color:var(--muted);">Everything inside</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px;background:rgba(56,249,215,0.06);border:1px solid rgba(56,249,215,0.15);border-radius:12px;">
+        <p style="font-size:13px;color:var(--text);line-height:1.6;">💡 <strong>Why it matters for your career:</strong> Microsoft is aggressively pushing Fabric. Many companies are migrating to it. Knowing Fabric gives you an edge in Data Analyst, BI Analyst, and Power BI Developer roles in 2025–26.</p>
+      </div>
+
+      <div class="interview-box fabric" style="margin-top:20px;">
+        <div class="interview-label">Interview-Ready Answer</div>
+        <div class="interview-quote">"Microsoft Fabric is an all-in-one analytics platform that combines data movement, storage, engineering, and visualization (Power BI) in a single unified environment."</div>
+        <div class="interview-simple"><strong>In plain English:</strong> Fabric is Microsoft's answer to having too many data tools. One platform does it all — and it's the future of Microsoft's data stack.</div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(3)">← Back</button>
+      <button onclick="goTo(5)">Next: Comparison →</button>
+    </div>
+    <div class="page-num">5 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 5: COMPARISON ═══════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="card">
+      <div class="badge overview">Side-by-Side</div>
+      <div class="tagline">When to Use Which Tool?</div>
+      <p class="desc">Here's a quick cheat sheet. Bookmark this for your next interview.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Role</th>
+              <th>Use When...</th>
+              <th>Does NOT do</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tool-pill pill-airflow">Airflow</span></td>
+              <td>Scheduler / Manager</td>
+              <td>You need tasks to run on a schedule and in a specific order automatically</td>
+              <td>Move or clean data itself</td>
+            </tr>
+            <tr>
+              <td><span class="tool-pill pill-dbt">dbt</span></td>
+              <td>Transformer / Cleaner</td>
+              <td>Raw data is in your database but it's messy and needs to be organized for reporting</td>
+              <td>Move data between systems</td>
+            </tr>
+            <tr>
+              <td><span class="tool-pill pill-adf">ADF</span></td>
+              <td>Mover / Loader</td>
+              <td>Data is sitting in one place (Excel, API, old DB) and needs to go to another place (cloud warehouse)</td>
+              <td>Deep transformation or scheduling logic</td>
+            </tr>
+            <tr>
+              <td><span class="tool-pill pill-fabric">Fabric</span></td>
+              <td>All-in-One Platform</td>
+              <td>Your company wants one unified platform instead of managing 4 separate tools</td>
+              <td>Nothing — it's a complete platform</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tagline" style="font-size:16px;margin:28px 0 12px;">How They Work Together</div>
+      <p class="desc">In a real data team, these tools are often used together:</p>
+      <div class="flow" style="flex-wrap:wrap;gap:4px;">
+        <div class="flow-step highlight-adf" style="font-size:12px;">ADF<br><span style="font-size:10px;color:var(--muted)">Moves data in</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step highlight-dbt" style="font-size:12px;">dbt<br><span style="font-size:10px;color:var(--muted)">Cleans it</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="font-size:12px;">🗄️ Warehouse<br><span style="font-size:10px;color:var(--muted)">Stores it</span></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="font-size:12px;">📊 Power BI<br><span style="font-size:10px;color:var(--muted)">Visualizes it</span></div>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:13px;margin:10px 0;">⬆️ All of the above is scheduled and monitored by</p>
+      <div style="text-align:center;">
+        <div class="flow-step highlight-airflow" style="display:inline-block;font-size:13px;">⚙️ Airflow — the manager of the whole pipeline</div>
+      </div>
+
+      <div style="margin-top:24px;padding:18px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;">
+        <h4 style="font-family:'Syne',sans-serif;font-size:14px;margin-bottom:10px;">Or — skip all the above with Fabric:</h4>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;">If your company uses Microsoft Fabric, you get ADF-style data movement + dbt-style transformation + Power BI + storage all in one place. Many companies are making this switch right now.</p>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(4)">← Back</button>
+      <button onclick="goTo(6)">Next: The Story →</button>
+    </div>
+    <div class="page-num">6 / 7</div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 6: STORY ═══════════════ -->
+  <div class="slide" id="slide-6">
+    <div class="card">
+      <div class="badge overview">Putting it all together</div>
+      <div class="tagline">One Day in the Life of a Data Analyst</div>
+      <p class="desc">Meet Rohan. He's a junior Data Analyst at a food delivery startup. Here's what happens every morning at 6 AM — all automatically:</p>
+
+      <div class="story-timeline" style="margin-top:28px;">
+        <div class="story-step">
+          <div class="story-dot"></div>
+          <div>
+            <div class="story-who" style="color:var(--accent1);">⏰ Airflow says at 6:00 AM:</div>
+            <div class="story-says">"Good morning! Starting the daily pipeline. Step 1: kick off data collection."</div>
+          </div>
+        </div>
+        <div class="story-step">
+          <div class="story-dot"></div>
+          <div>
+            <div class="story-who" style="color:var(--accent4);">🚚 ADF says:</div>
+            <div class="story-says">"On it. Pulling yesterday's order data from the app's API and loading it into the Azure database. Done in 4 minutes."</div>
+          </div>
+        </div>
+        <div class="story-step">
+          <div class="story-dot"></div>
+          <div>
+            <div class="story-who" style="color:var(--accent3);">🧹 dbt says:</div>
+            <div class="story-says">"Raw data received. Removing duplicates, fixing date formats, combining orders + payments + refunds into a clean Revenue table. Ready for analysis."</div>
+          </div>
+        </div>
+        <div class="story-step">
+          <div class="story-dot"></div>
+          <div>
+            <div class="story-who" style="color:var(--accent5);">📊 Power BI says (via Fabric):</div>
+            <div class="story-says">"Clean data loaded. Refreshing dashboards. Revenue for yesterday: ₹14.2L. Top city: Bengaluru. Repeat customers: 43%. Reports are live."</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="desc" style="margin-top:24px;">When Rohan opens his laptop at 9 AM, all of this is already done. He didn't write a single line of code this morning. The tools handled it all.</p>
+
+      <div style="background:linear-gradient(135deg,rgba(108,99,255,0.08),rgba(56,249,215,0.08));border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">💡</div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;">That's the power of a data pipeline.</div>
+        <div style="font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto;">Four tools. One automated workflow. Every morning, fresh data, clean reports, happy managers — before anyone even has their first cup of chai.</div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <div style="font-family:'Syne',sans-serif;font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center;letter-spacing:1px;text-transform:uppercase;">Quick Recap</div>
+        <div class="grid2">
+          <div class="mini-card">
+            <h4 style="color:var(--accent1);">Airflow</h4>
+            <p>The scheduler. Makes everything run in order, on time, every day.</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent3);">dbt</h4>
+            <p>The cleaner. Takes messy raw data, transforms it into clean analysis-ready tables.</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent4);">Azure Data Factory</h4>
+            <p>The mover. Transports data from source to destination automatically.</p>
+          </div>
+          <div class="mini-card">
+            <h4 style="color:var(--accent5);">Microsoft Fabric</h4>
+            <p>The all-in-one platform. Does everything under one roof — the future of Microsoft's data world.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button onclick="goTo(5)">← Back</button>
+      <button onclick="goTo(0)">↩ Start Over</button>
+    </div>
+    <div class="page-num">7 / 7</div>
+  </div>
+
+</div><!-- /slides-container -->
+
+<script>
+  let current = 0;
+  const total = 7;
+
+  function goTo(n) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+
+    const btns = document.querySelectorAll('.nav button');
+    btns.forEach((b, i) => b.classList.toggle('active', i === n));
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
