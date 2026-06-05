@@ -1,4 +1,4 @@
-# 🚀 Data Tools Explained
+# 🚀  A Visual Guide to Modern Data Engineering Tools
 
 [![Project Banner](assets/project-banner.png)](https://shikharprakash071.github.io/data-tools-explained/)
 
