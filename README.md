@@ -1,6 +1,6 @@
 # 🚀 Data Tools Explained
 
-![Project Banner](assets/project-banner.png)
+[![Project Banner](assets/project-banner.png)](https://shikharprakash071.github.io/data-tools-explained/)
 
 An interactive educational web application that simplifies modern Data Engineering and Analytics concepts through visual storytelling, real-world analogies, workflow diagrams, and beginner-friendly explanations.
 
